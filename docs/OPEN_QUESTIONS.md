@@ -42,7 +42,31 @@ against a live response yet: on 2026-10-10 every staging API path returned
 9. **Filters.** Is `filter[name]` exact, prefix or contains? Is `filter[status]`
    single-valued or comma-separated? Timezone handling of `filter[updated_since]`.
 
-10. **Pilot status / publication.** OK to publish an open-source SDK for the API, and when
+10. **Owner lifecycle.** What happens to `companies.owner` / `tasks.owner` when a user is
+    deactivated (the `owners` list only returns active members)? Is the owner cleared, kept
+    but unreadable via `GET /owners/{id}`, or reassigned? QLS will use `companies.owner` as
+    the customer's account manager (kundansvarig) and assign CSR tasks to it.
+
+11. **Contacts per company.** `GET /contacts` has no `filter[company]`. Is one planned, or
+    should integrations page through `contacts` (or the change feed) and filter locally?
+
+12. **Quotes.** The API has no quote/offer resource, although the product creates and signs
+    quotes. Is a quote API planned (create/send a quote, quote number issued by Lime,
+    status/signing events)? QLS wants to send quotes from its quote builder via Lime.
+
+13. **Custom fields: creation, types and write semantics.** `custom-field-definitions` is
+    read-only in the API, so fields are created in the Lime UI. Which `field_type` values
+    exist (boolean, text, multi-value/list, URL)? On PATCH, is `custom_fields` MERGED with
+    the existing values or does it REPLACE the whole object (would clobber fields set by
+    users or other integrations)? Is the key in `custom_fields` the definition `key`?
+    QLS plans two company fields maintained by QARP: "QARP customer" (yes/no) and
+    "QARP tenant id(s)".
+
+14. **External id ownership.** `PUT .../external/{external_id}` is "integration-owned". Can
+    a record carry external ids from several integrations (QARP and the Fortnox sync), and
+    can we look a record up by our external id without upserting?
+
+15. **Pilot status / publication.** OK to publish an open-source SDK for the API, and when
     does v1 leave pilot? (The SDK's public PyPI release waits for this.) Also: may we
     redistribute `spec/openapi.json` in a public repo/sdist? If not, exclude it from the
     sdist and fetch it in CI instead before going public (the wheel never contains it).
