@@ -7,3 +7,6 @@ __pycache__/
 build/
 dist/
 .env
+
+# Lime's OpenAPI spec: fetched by scripts/fetch_spec.py, not redistributed.
+spec/openapi.json

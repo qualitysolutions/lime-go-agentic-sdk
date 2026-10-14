@@ -1,13 +1,16 @@
-"""The SDK must match the vendored OpenAPI spec (spec/openapi.json) exactly.
+"""The SDK must match Lime's OpenAPI spec exactly.
 
-When Lime changes the API: download the new spec over spec/openapi.json and run this
-file. Every failure names the exact drift (new attribute, changed enum, new endpoint...).
+The spec is Lime's document and is not redistributed in this repo: fetch it first with
+``python scripts/fetch_spec.py`` (CI does, and sets ``LIME_SPEC_REQUIRED=1`` so a missing
+spec fails instead of skipping). Every failure names the exact drift (new attribute,
+changed enum, new endpoint...), so CI also flags when Lime changes the API.
 """
 
 from __future__ import annotations
 
 import inspect
 import json
+import os
 import typing
 from pathlib import Path
 from typing import Any, Literal, get_args, get_origin
@@ -19,7 +22,12 @@ from lime_go_agentic import LimeGoClient, models
 from lime_go_agentic.resources import CHANGES_CURSOR_PARAM  # noqa: F401  (documented gap)
 from lime_go_agentic.resources._base import SyncCrudResource, SyncReadResource, SyncRelationship
 
-SPEC = json.loads((Path(__file__).parent.parent / "spec" / "openapi.json").read_text())
+SPEC_FILE = Path(__file__).parent.parent / "spec" / "openapi.json"
+if not SPEC_FILE.exists():
+    if os.getenv("LIME_SPEC_REQUIRED") == "1":
+        raise RuntimeError(f"{SPEC_FILE} is missing; run python scripts/fetch_spec.py")
+    pytest.skip("spec/openapi.json not fetched (python scripts/fetch_spec.py)", allow_module_level=True)
+SPEC = json.loads(SPEC_FILE.read_text())
 PATHS = SPEC["paths"]
 SCHEMAS = SPEC["components"]["schemas"]
 API = "/api/v1"

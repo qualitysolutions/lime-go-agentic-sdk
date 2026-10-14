@@ -32,7 +32,12 @@ jobs:
       - name: Type check (mypy --strict)
         run: mypy src/lime_go_agentic
 
+      - name: Fetch Lime's OpenAPI spec (not redistributed in the repo)
+        run: python scripts/fetch_spec.py
+
       - name: Unit + spec-conformance tests
         # Integration tests are excluded by default (addopts -m 'not integration');
         # they need live LIME_GO_* credentials and are not run in CI.
+        env:
+          LIME_SPEC_REQUIRED: "1"
         run: pytest -q
