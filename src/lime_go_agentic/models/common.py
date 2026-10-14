@@ -86,8 +86,11 @@ class Resource(_Model):
     """Base for every resource object returned by the API.
 
     ``etag`` is the response ``ETag`` when the resource came from a single-resource
-    response (get/create/update/upsert). Pass the resource itself as ``if_match=`` to
-    update/delete it. Resources from a list page have ``etag = None``.
+    response (get/create/update/upsert). Otherwise (list pages, ``included``) it is
+    derived from ``meta.revision`` as ``"<id>:<revision>"``, the format the API was
+    verified to use on 2026-10-14 for every revisioned resource. Pass the resource itself
+    as ``if_match=`` to update/delete it; a stale or wrong ETag fails safely with 412.
+    Resources without a revision (``owners``) have ``etag = None``.
     """
 
     id: str
@@ -98,7 +101,11 @@ class Resource(_Model):
 
     @property
     def etag(self) -> str | None:
-        return self._etag
+        if self._etag is not None:
+            return self._etag
+        if self.meta.revision is not None:
+            return f'"{self.id}:{self.meta.revision}"'
+        return None
 
     @property
     def revision(self) -> str | None:

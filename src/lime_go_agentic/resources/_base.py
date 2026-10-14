@@ -115,7 +115,7 @@ def _if_match(value: str | Resource) -> str:
     if isinstance(value, Resource):
         if value.etag is None:
             raise MissingETagError(
-                f"{value.type}/{value.id} has no ETag (it came from a list page). "
+                f"{value.type}/{value.id} has no ETag (no response ETag and no meta.revision). "
                 "Fetch it with get() first, or pass if_match= the ETag string."
             )
         return value.etag

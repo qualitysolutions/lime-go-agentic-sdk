@@ -5,6 +5,19 @@ All notable changes to `qls-lime-go-agentic` are documented here.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions are
 CalVer `YY.M.D[.N]`.
 
+## [26.10.14] - 2026-10-14 (unreleased, not on PyPI)
+
+### Changed
+- Verified read-only against the live API: every list/get resource parses the real
+  responses. `tests/test_live_fixtures.py` runs on recorded, sanitized payloads
+  (`tests/fixtures/live/`, produced by `scripts/record_fixtures.py`).
+- `Resource.etag` falls back to `"<id>:<revision>"` from `meta.revision`, the ETag format the
+  API uses, so list items can be passed as `if_match=` without a `get()` first.
+  `MissingETagError` now only applies to resources without a revision (`owners`).
+
+### Fixed
+- `Config(scopes="a b")` sent one scope per character; a space-separated string is now split.
+
 ## [26.10.10] - 2026-10-10 (unreleased, not on PyPI)
 
 ### Added

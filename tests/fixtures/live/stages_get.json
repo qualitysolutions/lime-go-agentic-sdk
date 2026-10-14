@@ -1,0 +1,22 @@
+{
+  "body": {
+    "data": {
+      "attributes": {
+        "name": "<name>",
+        "position": 0,
+        "category": "open",
+        "probability": null,
+        "updated_at": "2026-09-17T08:21:12.820092Z",
+        "created_at": "2026-09-17T08:21:12.820092Z"
+      },
+      "id": "00000000-0000-0000-0000-00000000000d",
+      "meta": {
+        "revision": "0"
+      },
+      "type": "stages",
+      "relationships": {}
+    },
+    "included": []
+  },
+  "etag": "\"00000000-0000-0000-0000-00000000000d:0\""
+}

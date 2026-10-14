@@ -1,0 +1,44 @@
+{
+  "body": {
+    "data": [
+      {
+        "attributes": {
+          "name": "<name>",
+          "position": 0,
+          "description": "<description>",
+          "category": "custom",
+          "icon": "lucide:message-square",
+          "updated_at": "2026-09-17T08:21:12.829625Z",
+          "created_at": "2026-09-17T08:21:12.829625Z"
+        },
+        "id": "00000000-0000-0000-0000-000000000011",
+        "meta": {
+          "revision": "0"
+        },
+        "type": "activity-types",
+        "relationships": {}
+      },
+      {
+        "attributes": {
+          "name": "<name>",
+          "position": 1,
+          "description": "<description>",
+          "category": "custom",
+          "icon": "lucide:phone",
+          "updated_at": "2026-09-17T08:21:12.833954Z",
+          "created_at": "2026-09-17T08:21:12.833954Z"
+        },
+        "id": "00000000-0000-0000-0000-000000000012",
+        "meta": {
+          "revision": "0"
+        },
+        "type": "activity-types",
+        "relationships": {}
+      }
+    ],
+    "links": {
+      "next": "/api/v1/activity-types?page[after]=CURSOR&page[size]=2"
+    },
+    "included": []
+  }
+}

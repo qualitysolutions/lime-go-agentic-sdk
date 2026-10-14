@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "qls-lime-go-agentic"
-version = "26.10.10"
+version = "26.10.14"
 description = "Python SDK for the Lime Go Agentic public CRM API (JSON:API, OAuth2 client credentials)."
 readme = "README.md"
 requires-python = ">=3.10"

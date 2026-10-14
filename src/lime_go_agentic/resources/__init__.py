@@ -113,8 +113,8 @@ class CustomFieldDefinitions(SyncReadResource[CustomFieldDefinition, UpdatedSinc
                          CustomFieldDefinition)
 
 
-#: Query parameter carrying the resume cursor on ``GET /changes``. UNVERIFIED: the spec
-#: returns ``meta.cursor`` but documents no request parameter; confirm with Lime.
+#: Query parameter carrying the resume cursor on ``GET /changes``. Not in the spec;
+#: verified live 2026-10-14 (other names give 400 ``invalid_query``, a bad cursor 410).
 CHANGES_CURSOR_PARAM = "cursor"
 
 

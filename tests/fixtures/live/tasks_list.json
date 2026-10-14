@@ -1,0 +1,118 @@
+{
+  "body": {
+    "data": [
+      {
+        "attributes": {
+          "priority": "medium",
+          "status": "cancelled",
+          "description": "<description>",
+          "title": "<title>",
+          "updated_at": "2026-10-14T14:01:25.373220Z",
+          "created_at": "2026-09-28T16:38:11.511515Z",
+          "due_date": "2026-09-28T23:59:59Z"
+        },
+        "id": "00000000-0000-0000-0000-000000000006",
+        "meta": {
+          "revision": "1"
+        },
+        "type": "tasks",
+        "relationships": {
+          "companies": {
+            "data": [],
+            "links": {
+              "self": "/api/v1/tasks/00000000-0000-0000-0000-000000000006/relationships/companies?page[size]=100",
+              "next": null
+            },
+            "meta": {
+              "truncated": false
+            }
+          },
+          "contacts": {
+            "data": [],
+            "links": {
+              "self": "/api/v1/tasks/00000000-0000-0000-0000-000000000006/relationships/contacts?page[size]=100",
+              "next": null
+            },
+            "meta": {
+              "truncated": false
+            }
+          },
+          "deals": {
+            "data": [],
+            "links": {
+              "self": "/api/v1/tasks/00000000-0000-0000-0000-000000000006/relationships/deals?page[size]=100",
+              "next": null
+            },
+            "meta": {
+              "truncated": false
+            }
+          },
+          "owner": {
+            "data": {
+              "id": "00000000-0000-0000-0000-000000000007",
+              "type": "owners"
+            }
+          }
+        }
+      },
+      {
+        "attributes": {
+          "priority": "medium",
+          "status": "proposed",
+          "description": "<description>",
+          "title": "<title>",
+          "updated_at": "2026-10-02T11:12:45.777139Z",
+          "created_at": "2026-10-02T11:12:45.777139Z",
+          "due_date": "2026-10-02T23:59:59Z"
+        },
+        "id": "00000000-0000-0000-0000-000000000008",
+        "meta": {
+          "revision": "0"
+        },
+        "type": "tasks",
+        "relationships": {
+          "companies": {
+            "data": [],
+            "links": {
+              "self": "/api/v1/tasks/00000000-0000-0000-0000-000000000008/relationships/companies?page[size]=100",
+              "next": null
+            },
+            "meta": {
+              "truncated": false
+            }
+          },
+          "contacts": {
+            "data": [],
+            "links": {
+              "self": "/api/v1/tasks/00000000-0000-0000-0000-000000000008/relationships/contacts?page[size]=100",
+              "next": null
+            },
+            "meta": {
+              "truncated": false
+            }
+          },
+          "deals": {
+            "data": [],
+            "links": {
+              "self": "/api/v1/tasks/00000000-0000-0000-0000-000000000008/relationships/deals?page[size]=100",
+              "next": null
+            },
+            "meta": {
+              "truncated": false
+            }
+          },
+          "owner": {
+            "data": {
+              "id": "00000000-0000-0000-0000-000000000009",
+              "type": "owners"
+            }
+          }
+        }
+      }
+    ],
+    "links": {
+      "next": "/api/v1/tasks?page[after]=CURSOR&page[size]=2"
+    },
+    "included": []
+  }
+}

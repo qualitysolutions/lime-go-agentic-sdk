@@ -1,0 +1,90 @@
+{
+  "body": {
+    "data": [
+      {
+        "attributes": {
+          "name": "<name>",
+          "status": "customer",
+          "state": null,
+          "domain": "example.com",
+          "description": "<description>",
+          "email": "user0@example.com",
+          "city": "<city>",
+          "country": "SE",
+          "updated_at": "2026-10-14T12:49:48.721275Z",
+          "created_at": "2026-09-23T07:49:27.248666Z",
+          "street": "<street>",
+          "postal_code": "<postal_code>",
+          "phone": "+46 8 000 00 00",
+          "industry": "<industry>",
+          "business_id": "556000-0000",
+          "custom_fields": {}
+        },
+        "id": "00000000-0000-0000-0000-000000000001",
+        "meta": {
+          "revision": "3"
+        },
+        "type": "companies",
+        "relationships": {
+          "owner": {
+            "data": null
+          },
+          "tags": {
+            "data": [],
+            "links": {
+              "self": "/api/v1/companies/00000000-0000-0000-0000-000000000001/relationships/tags?page[size]=100",
+              "next": null
+            },
+            "meta": {
+              "truncated": false
+            }
+          }
+        }
+      },
+      {
+        "attributes": {
+          "name": "<name>",
+          "status": "customer",
+          "state": null,
+          "domain": "example.com",
+          "description": "<description>",
+          "email": "user1@example.com",
+          "city": "<city>",
+          "country": "SE",
+          "updated_at": "2026-10-14T12:49:48.721275Z",
+          "created_at": "2026-09-23T07:50:55.441902Z",
+          "street": "<street>",
+          "postal_code": "<postal_code>",
+          "phone": "+46 8 000 00 00",
+          "industry": "<industry>",
+          "business_id": "556000-0000",
+          "custom_fields": {}
+        },
+        "id": "00000000-0000-0000-0000-000000000002",
+        "meta": {
+          "revision": "3"
+        },
+        "type": "companies",
+        "relationships": {
+          "owner": {
+            "data": null
+          },
+          "tags": {
+            "data": [],
+            "links": {
+              "self": "/api/v1/companies/00000000-0000-0000-0000-000000000002/relationships/tags?page[size]=100",
+              "next": null
+            },
+            "meta": {
+              "truncated": false
+            }
+          }
+        }
+      }
+    ],
+    "links": {
+      "next": "/api/v1/companies?page[after]=CURSOR&page[size]=2"
+    },
+    "included": []
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "body": {
+    "data": {
+      "attributes": {
+        "name": "<name>",
+        "description": null,
+        "color": "orange",
+        "updated_at": "2026-10-14T12:50:47.539841Z",
+        "created_at": "2026-10-14T12:50:47.539841Z",
+        "taggable_type": "company"
+      },
+      "id": "00000000-0000-0000-0000-00000000000f",
+      "meta": {
+        "revision": "1"
+      },
+      "type": "tags",
+      "relationships": {}
+    },
+    "included": []
+  },
+  "etag": "\"00000000-0000-0000-0000-00000000000f:1\""
+}
