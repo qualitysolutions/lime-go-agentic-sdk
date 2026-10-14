@@ -4,7 +4,8 @@ Gaps found while building the SDK from `spec/openapi.json`. Each item notes what
 does today so it can be adjusted once Lime answers.
 
 **Verified live on 2026-10-14** (read-only, GETs only) once Lime enabled API access: items
-marked *Answered* below were settled by observing the API. Note that OAuth clients created
+marked *Answered* below were settled by observing the API. Writes were tested on one
+task (create via upsert, then an owner change). Note that OAuth clients created
 in the admin UI *before* API access was enabled kept returning `401 invalid_client` (even
 after rotating the secret); a client created afterwards worked.
 
@@ -72,7 +73,12 @@ after rotating the secret); a client created afterwards worked.
     QLS plans two company fields maintained by QARP: "QARP customer" (yes/no) and
     "QARP tenant id(s)".
 
-14. **External id ownership.** `PUT .../external/{external_id}` is "integration-owned". Can
+14. **External id ownership and upsert of an existing record.** Observed 2026-10-14 on
+    `PUT /tasks/external/{id}` for a task this integration created: without `If-Match` the
+    API answers `428 precondition_required`; with the task's current ETag it answers
+    `409 conflict` (request id `29b6163e-c055-46c6-9723-b35132d5e8f3`), also with a fresh
+    Idempotency-Key. What does 409 mean here, and is upsert meant to update existing records?
+    A `PATCH /tasks/{id}` with `If-Match` worked. Also: `PUT .../external/{external_id}` is "integration-owned". Can
     a record carry external ids from several integrations (QARP and the Fortnox sync), and
     can we look a record up by our external id without upserting?
 
