@@ -5,15 +5,16 @@ credentials). Sync and async clients, fully typed request/response models (pydan
 `mypy --strict` clean), automatic token handling, idempotent retries, ETag concurrency,
 pagination and the change feed.
 
-> **Status: pre-release.** Built against the API's OpenAPI spec v1.0.0, which Lime marks
-> as an *unpublished v1 pilot*, and verified read-only against the live API on 2026-10-14.
-> Not yet published to PyPI. See [docs/OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md) for what
-> was verified and the spec gaps still to confirm with Lime.
+> **Status: early release.** Built against the API's OpenAPI spec v1.0.0, which Lime marks
+> as an *unpublished v1 pilot*, and verified against the live API on 2026-10-14 (reads, plus
+> task/activity writes). Not an official Lime product. See
+> [docs/OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md) for what was verified and the spec gaps
+> still to confirm with Lime.
 
 ## Install
 
 ```bash
-pip install -e ".[dev]"     # from a checkout (PyPI release pending)
+pip install qls-lime-go-agentic
 ```
 
 The distribution is `qls-lime-go-agentic`; the import package is `lime_go_agentic`.
@@ -164,8 +165,10 @@ uv venv .venv && uv pip install -e ".[dev]"
 .venv/bin/pytest -m integration          # live, needs LIME_GO_* in the environment
 ```
 
-**Spec drift:** download the latest spec over `spec/openapi.json` and run
-`pytest tests/test_spec_conformance.py`; every failure names the exact difference.
+**Spec conformance:** Lime's OpenAPI spec is not redistributed here. Fetch it with
+`python scripts/fetch_spec.py` (writes the gitignored `spec/openapi.json`), then run
+`pytest tests/test_spec_conformance.py`; every failure names the exact difference. CI
+fetches the live spec on every run, so it also flags when Lime changes the API.
 
 ## License
 

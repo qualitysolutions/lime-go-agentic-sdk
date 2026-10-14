@@ -32,7 +32,7 @@ dev = [
 packages = ["src/lime_go_agentic"]
 
 [tool.hatch.build.targets.sdist]
-exclude = [".env", ".venv", "dist"]
+exclude = [".env", ".venv", "dist", "spec"]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

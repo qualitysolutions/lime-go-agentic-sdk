@@ -85,9 +85,9 @@ after rotating the secret); a client created afterwards worked.
     can we look a record up by our external id without upserting?
 
 15. **Pilot status / publication.** OK to publish an open-source SDK for the API, and when
-    does v1 leave pilot? (The SDK's public PyPI release waits for this.) Also: may we
-    redistribute `spec/openapi.json` in a public repo/sdist? If not, exclude it from the
-    sdist and fetch it in CI instead before going public (the wheel never contains it).
+    does v1 leave pilot? (QLS published the SDK on PyPI on 2026-10-14 to use it in
+    production.) The spec itself is not redistributed: the repo fetches it from the public
+    docs URL for its conformance test. Is that OK?
 
 16. **Links in task descriptions.** A task `description` is shown as plain text in the Lime
     UI: neither a bare URL nor a Markdown link `[text](url)` becomes clickable, in task
