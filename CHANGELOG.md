@@ -15,6 +15,10 @@ CalVer `YY.M.D[.N]`.
   API uses, so list items can be passed as `if_match=` without a `get()` first.
   `MissingETagError` now only applies to resources without a revision (`owners`).
 
+- Documented live write behaviour: upsert of an existing record needs `if_match` (428) and
+  returned 409 with it; use `update` (PATCH) for changes. The change feed is filtered by
+  the token's read scopes.
+
 ### Fixed
 - `Config(scopes="a b")` sent one scope per character; a space-separated string is now split.
 

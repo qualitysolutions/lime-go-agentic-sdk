@@ -32,6 +32,8 @@ after rotating the secret); a client created afterwards worked.
    organization (`x-ratelimit-policy: per-instance; window=60`), reported in
    `x-ratelimit-integration-limit|remaining`, `x-ratelimit-organization-limit|remaining`
    and `x-ratelimit-reset`. Open: whether 429 carries `Retry-After`.
+   The change feed only returns resource types the token can read: `changes:read` alone
+   returns nothing. Own writes carry `origin_integration_id` (one upsert = two revisions).
    *SDK:* retries 429/5xx with backoff and honours `Retry-After` up to 30 s.
 
 5. **Idempotency-Key semantics.** Retention window, and the response when a key is reused
