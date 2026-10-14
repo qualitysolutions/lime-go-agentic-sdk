@@ -90,6 +90,6 @@ after rotating the secret); a client created afterwards worked.
     sdist and fetch it in CI instead before going public (the wheel never contains it).
 
 16. **Links in task descriptions.** A task `description` is shown as plain text in the Lime
-    UI: neither a bare URL nor a Markdown link `[text](url)` becomes clickable (tested
-    2026-10-14). Is there a way to give a task a clickable link (a URL field, rich text,
+    UI: neither a bare URL nor a Markdown link `[text](url)` becomes clickable, in task
+    descriptions or in note activities (tested 2026-10-14). Is there a way to give a task a clickable link (a URL field, rich text,
     auto-linking), or is one planned? QLS links each lifecycle task to its QARP page.
