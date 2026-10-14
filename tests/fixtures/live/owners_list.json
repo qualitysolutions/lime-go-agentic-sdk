@@ -1,0 +1,31 @@
+{
+  "body": {
+    "data": [
+      {
+        "attributes": {
+          "email": "user11@example.com",
+          "first_name": "<first_name>",
+          "last_name": "<last_name>"
+        },
+        "id": "00000000-0000-0000-0000-000000000009",
+        "type": "owners"
+      },
+      {
+        "attributes": {
+          "email": "user11@example.com",
+          "first_name": null,
+          "last_name": null
+        },
+        "id": "00000000-0000-0000-0000-00000000000c",
+        "type": "owners"
+      }
+    ],
+    "links": {
+      "self": "/api/v1/owners?page[size]=2",
+      "next": "/api/v1/owners?page[after]=CURSOR&page[size]=2"
+    },
+    "meta": {
+      "truncated": true
+    }
+  }
+}

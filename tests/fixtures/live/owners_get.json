@@ -1,0 +1,13 @@
+{
+  "body": {
+    "data": {
+      "attributes": {
+        "email": "user12@example.com",
+        "first_name": "<first_name>",
+        "last_name": "<last_name>"
+      },
+      "id": "00000000-0000-0000-0000-000000000009",
+      "type": "owners"
+    }
+  }
+}

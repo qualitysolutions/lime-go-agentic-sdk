@@ -6,8 +6,9 @@ credentials). Sync and async clients, fully typed request/response models (pydan
 pagination and the change feed.
 
 > **Status: pre-release.** Built against the API's OpenAPI spec v1.0.0, which Lime marks
-> as an *unpublished v1 pilot*. Not yet published to PyPI. See
-> [docs/OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md) for the spec gaps still to confirm with Lime.
+> as an *unpublished v1 pilot*, and verified read-only against the live API on 2026-10-14.
+> Not yet published to PyPI. See [docs/OPEN_QUESTIONS.md](docs/OPEN_QUESTIONS.md) for what
+> was verified and the spec gaps still to confirm with Lime.
 
 ## Install
 
@@ -104,9 +105,10 @@ external id.
 ### Concurrency (ETag / If-Match)
 
 `update`, `delete` and relationship writes require `if_match`. Resources returned by
-`get`/`create`/`update`/`upsert` carry `.etag`, so pass the resource itself. Items from a
-list page have no ETag (the page has one ETag for the whole list); `get()` them first, or
-you get `MissingETagError`. A stale ETag raises `PreconditionFailedError` (412): re-read
+`get`/`create`/`update`/`upsert` carry the response `.etag`; items from a list page derive
+it from `meta.revision` as `"<id>:<revision>"` (the API's format, verified live), so you can
+pass any resource itself. Only resources without a revision raise `MissingETagError`. A
+stale ETag raises `PreconditionFailedError` (412): re-read
 and retry. Relationship calls return the parent's new ETag in `page.etag`.
 
 ### Pagination

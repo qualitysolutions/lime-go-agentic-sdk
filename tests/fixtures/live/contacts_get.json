@@ -1,0 +1,45 @@
+{
+  "body": {
+    "data": {
+      "attributes": {
+        "status": "lead",
+        "email": "user5@example.com",
+        "updated_at": "2026-10-14T12:36:28.720214Z",
+        "created_at": "2026-10-14T12:36:28.242957Z",
+        "notes": null,
+        "job_title": null,
+        "phone": null,
+        "first_name": "<first_name>",
+        "last_name": "<last_name>",
+        "custom_fields": {},
+        "mobile_phone": null,
+        "department": null
+      },
+      "id": "00000000-0000-0000-0000-000000000003",
+      "meta": {
+        "revision": "3"
+      },
+      "type": "contacts",
+      "relationships": {
+        "company": {
+          "data": {
+            "id": "00000000-0000-0000-0000-000000000004",
+            "type": "companies"
+          }
+        },
+        "tags": {
+          "data": [],
+          "links": {
+            "self": "/api/v1/contacts/00000000-0000-0000-0000-000000000003/relationships/tags?page[size]=100",
+            "next": null
+          },
+          "meta": {
+            "truncated": false
+          }
+        }
+      }
+    },
+    "included": []
+  },
+  "etag": "\"00000000-0000-0000-0000-000000000003:3\""
+}

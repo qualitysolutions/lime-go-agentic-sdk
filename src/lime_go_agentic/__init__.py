@@ -74,7 +74,7 @@ from .models import (
     UpsertResult,
 )
 
-__version__ = "26.10.10"
+__version__ = "26.10.14"
 
 # Silent unless the host app configures a handler. The SDK logs to "lime_go_agentic" at
 # DEBUG (method, path, status, timing, request_id) and WARNING (retries), and never logs

@@ -1,0 +1,9 @@
+{
+  "body": {
+    "data": [],
+    "meta": {
+      "cursor": "CURSOR",
+      "checkpoint": true
+    }
+  }
+}

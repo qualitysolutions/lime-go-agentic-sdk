@@ -49,6 +49,12 @@ def test_from_env_is_environment_first(monkeypatch: pytest.MonkeyPatch) -> None:
     assert cfg.scopes == ("deals:read", "changes:read")
 
 
+@pytest.mark.parametrize("scopes", ["deals:read changes:read", ["deals:read", "changes:read"]])
+def test_scopes_accept_string_or_sequence(scopes: object) -> None:
+    cfg = Config(client_id="c", client_secret="s", environment="staging", scopes=scopes)  # type: ignore[arg-type]
+    assert cfg.scopes == ("deals:read", "changes:read")
+
+
 def test_client_rejects_config_plus_kwargs() -> None:
     cfg = Config(client_id="a", client_secret="b", environment="staging")
     with pytest.raises(TypeError):

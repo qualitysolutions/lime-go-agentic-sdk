@@ -36,7 +36,7 @@ class Config:
     wrong instance.
 
     ``scopes`` limits the token to the listed scopes (sent as the space-separated
-    ``scope`` form field). ``None`` sends no ``scope`` and lets the server grant the
+    ``scope`` form field). A single space-separated string is accepted too. ``None`` sends no ``scope`` and lets the server grant the
     client's configured default.
 
     :meth:`from_env` reads ``LIME_GO_*`` variables (see its docstring).
@@ -46,7 +46,7 @@ class Config:
     client_secret: str
     environment: str | None = None
     base_url: str | None = None
-    scopes: tuple[str, ...] | None = None
+    scopes: tuple[str, ...] | str | None = None
 
     # Networking.
     timeout: float = 30.0
@@ -80,7 +80,10 @@ class Config:
                 )
             self.base_url = ENVIRONMENT_URLS[self.environment]
         self.base_url = self.base_url.rstrip("/")
-        if self.scopes is not None:
+        if isinstance(self.scopes, str):
+            # tuple("a b") would send one scope per character.
+            self.scopes = tuple(self.scopes.split())
+        elif self.scopes is not None:
             self.scopes = tuple(self.scopes)
 
     @property

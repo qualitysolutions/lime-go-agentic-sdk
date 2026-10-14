@@ -60,9 +60,21 @@ def test_update_sends_only_set_fields_and_if_match(client: LimeGoClient, respx_m
     assert updated.etag == '"4"'
 
 
-def test_list_item_has_no_etag(client: LimeGoClient, respx_mock) -> None:
+def test_list_item_derives_etag_from_revision(client: LimeGoClient, respx_mock) -> None:
     respx_mock.get(f"{API}/companies").mock(return_value=jsonapi(200, {"data": [company()], "links": {}}, etag='"p"'))
+    route = respx_mock.delete(f"{API}/companies/{CID}").mock(return_value=jsonapi(204, None))
     item = client.companies.list().data[0]
+    assert item.etag == f'"{CID}:3"'
+    client.companies.delete(item.id, if_match=item)
+    assert route.calls.last.request.headers["if-match"] == f'"{CID}:3"'
+
+
+def test_resource_without_revision_has_no_etag(client: LimeGoClient, respx_mock) -> None:
+    raw = company()
+    del raw["meta"]
+    respx_mock.get(f"{API}/companies").mock(return_value=jsonapi(200, {"data": [raw], "links": {}}))
+    item = client.companies.list().data[0]
+    assert item.etag is None
     with pytest.raises(MissingETagError):
         client.companies.delete(item.id, if_match=item)
 

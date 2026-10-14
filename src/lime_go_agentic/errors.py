@@ -33,8 +33,9 @@ class MissingETagError(LimeGoError):
     """Raised when an ``If-Match`` value is required but none is available.
 
     PATCH, DELETE and relationship writes require the resource's current ETag. Resources
-    returned by ``get``/``create``/``update``/``upsert`` carry it; resources taken from a
-    list page do not (the list response has a single ETag for the whole page).
+    returned by ``get``/``create``/``update``/``upsert`` carry the response ETag; other
+    resources derive it from ``meta.revision``. Only resources without a revision (and
+    no response ETag) raise this.
     """
 
 

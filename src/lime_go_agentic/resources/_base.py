@@ -115,7 +115,7 @@ def _if_match(value: str | Resource) -> str:
     if isinstance(value, Resource):
         if value.etag is None:
             raise MissingETagError(
-                f"{value.type}/{value.id} has no ETag (it came from a list page). "
+                f"{value.type}/{value.id} has no ETag (no response ETag and no meta.revision). "
                 "Fetch it with get() first, or pass if_match= the ETag string."
             )
         return value.etag
@@ -237,7 +237,11 @@ class SyncCrudResource(SyncReadResource[R, F], Generic[R, F, C, U]):
         idempotency_key: str | None = None,
     ) -> UpsertResult[R]:
         """Create or update the record owned by this integration under ``external_id``
-        (max 128 chars), e.g. a contract number. ``result.created`` tells which."""
+        (max 128 chars), e.g. a contract number. ``result.created`` tells which.
+
+        Observed live (2026-10-14): when the record already exists the API requires
+        ``if_match`` (428 without it) and answered 409 even with the current ETag, so
+        change existing records with :meth:`update` (PATCH) until Lime clarifies."""
         if not 1 <= len(external_id) <= 128:
             raise ValueError("external_id must be 1-128 characters")
         response = self._t.request(
