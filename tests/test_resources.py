@@ -219,3 +219,23 @@ async def test_async_iter_and_relationships(async_client, respx_mock) -> None:
     respx_mock.get(f"{API}/tasks/t1/relationships/deals").mock(return_value=jsonapi(200, {
         "data": [{"type": "deals", "id": "d1"}], "links": {"next": None}, "meta": {}}))
     assert [i async for i in async_client.tasks.deals.iter("t1")] == ["d1"]
+
+
+def test_task_markdown_description_format() -> None:
+    from lime_go_agentic.models import Task, TaskUpdate
+
+    doc = TaskCreate(title="T", owner=None, description="## Rubrik\n\n[Länk](https://example.com)",
+                     description_format="markdown").to_document("tasks")
+    assert doc["data"]["attributes"]["description_format"] == "markdown"
+    # Changing the format must travel with the description (the API answers 422 otherwise);
+    # the SDK sends exactly what was set and nothing else (PATCH semantics).
+    upd = TaskUpdate(description="x", description_format="markdown").to_document("tasks")
+    assert upd["data"]["attributes"] == {"description": "x", "description_format": "markdown"}
+    with pytest.raises(ValidationError, match="description_format cannot be null"):
+        TaskUpdate(description_format=None)
+    with pytest.raises(ValidationError):
+        TaskUpdate(description_format="html")  # type: ignore[arg-type]
+    # Responses: omitted means plain_text; "unknown" is reserved for future values.
+    assert Task.model_validate({"type": "tasks", "id": "1", "attributes": {}}).attributes.description_format is None
+    t = Task.model_validate({"type": "tasks", "id": "1", "attributes": {"description_format": "unknown"}})
+    assert t.attributes.description_format == "unknown"

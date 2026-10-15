@@ -13,11 +13,17 @@ TaskStatus = Literal["pending", "in_progress", "completed", "cancelled", "propos
 TaskWriteStatus = Literal["pending", "in_progress", "completed", "cancelled", "proposed"]
 TaskPriority = Literal["low", "medium", "high", "urgent", "unknown"]
 TaskWritePriority = Literal["low", "medium", "high", "urgent"]
+#: How ``description`` is interpreted. Responses may also say ``unknown`` (reserved).
+DescriptionFormat = Literal["plain_text", "markdown", "unknown"]
+DescriptionWriteFormat = Literal["plain_text", "markdown"]
 
 
 class TaskAttributes(_Model):
     title: str | None = None
     description: str | None = None
+    #: Omitted in default responses for plain-text tasks (means ``plain_text``); request
+    #: ``fields[tasks]=description,description_format`` for an explicit value.
+    description_format: DescriptionFormat | None = None
     status: TaskStatus | None = None
     priority: TaskPriority | None = None
     due_date: datetime | None = None
@@ -45,9 +51,14 @@ class _TaskWrite(WriteModel):
         "contacts": ("many", "contacts"),
         "deals": ("many", "deals"),
     }
-    non_nullable_fields: ClassVar[frozenset[str]] = frozenset({"title", "status", "priority"})
+    non_nullable_fields: ClassVar[frozenset[str]] = frozenset(
+        {"title", "status", "priority", "description_format"})
 
     description: Text | None = None
+    #: ``markdown`` renders headings, bold, lists and clickable links in Lime. Create
+    #: omission = plain_text; update omission keeps the stored format; changing the
+    #: format requires ``description`` in the same request (else 422).
+    description_format: DescriptionWriteFormat | None = None
     status: TaskWriteStatus | None = None
     priority: TaskWritePriority | None = None
     due_date: datetime | None = None
