@@ -3,7 +3,16 @@
 All notable changes to `qls-lime-go-agentic` are documented here.
 
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions are
-CalVer `YY.M.D[.N]`.
+CalVer: `YY.M.D[.N]` up to 26.10.14, `YYYY.M.D[.N]` from 2026.10.15 (sorts after the
+older versions under PEP 440).
+
+## [2026.10.15] - 2026-10-15
+
+### Added
+- Tasks: `description_format` (`plain_text` | `markdown`) on `TaskCreate` / `TaskUpdate` and
+  the read model (`unknown` is reserved in responses; omitted means `plain_text`). Lime
+  added Markdown task descriptions (headings, bold, lists, clickable links) to the live
+  API; the spec version stayed 1.0.0, the conformance test caught the change.
 
 ## [26.10.14] - 2026-10-14
 

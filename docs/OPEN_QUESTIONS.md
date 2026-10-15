@@ -89,7 +89,7 @@ after rotating the secret); a client created afterwards worked.
     production.) The spec itself is not redistributed: the repo fetches it from the public
     docs URL for its conformance test. Is that OK?
 
-16. **Links in task descriptions.** A task `description` is shown as plain text in the Lime
-    UI: neither a bare URL nor a Markdown link `[text](url)` becomes clickable, in task
-    descriptions or in note activities (tested 2026-10-14). Is there a way to give a task a clickable link (a URL field, rich text,
-    auto-linking), or is one planned? QLS links each lifecycle task to its QARP page.
+16. **Links in task descriptions.** *Answered 2026-10-15.* Lime added
+    `description_format: "markdown"` on task create/update/upsert: headings, bold, lists and
+    clickable links render in the Lime UI. Plain text (the default) still shows URLs
+    unlinked, also in note activities.
