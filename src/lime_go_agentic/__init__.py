@@ -71,10 +71,13 @@ from .models import (
     Task,
     TaskCreate,
     TaskUpdate,
+    Ticket,
+    TicketCreate,
+    TicketMessage,
     UpsertResult,
 )
 
-__version__ = "2026.10.15"
+__version__ = "2026.11.17"
 
 # Silent unless the host app configures a handler. The SDK logs to "lime_go_agentic" at
 # DEBUG (method, path, status, timing, request_id) and WARNING (retries), and never logs
@@ -92,7 +95,7 @@ __all__ = [
     "CustomFieldDefinition",
     "Deal", "DealCreate", "DealUpdate",
     "Owner", "Page", "RelationshipPage", "Resource", "Stage", "Tag",
-    "Task", "TaskCreate", "TaskUpdate", "UpsertResult",
+    "Task", "TaskCreate", "TaskUpdate", "Ticket", "TicketCreate", "TicketMessage", "UpsertResult",
     # errors
     "LimeGoError", "ConfigurationError", "AuthenticationError", "MissingETagError",
     "APIError", "APIConnectionError", "APITimeoutError", "APIStatusError", "ErrorObject",

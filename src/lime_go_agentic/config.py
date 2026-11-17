@@ -22,6 +22,7 @@ ALL_SCOPES = (
     "deals:read", "deals:write", "deals:delete",
     "reference:read",
     "tasks:read", "tasks:write", "tasks:delete",
+    "tickets:create",
 )
 
 
