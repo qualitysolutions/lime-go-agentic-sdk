@@ -20,7 +20,12 @@ from pydantic import BaseModel
 
 from lime_go_agentic import LimeGoClient, models
 from lime_go_agentic.resources import CHANGES_CURSOR_PARAM  # noqa: F401  (documented gap)
-from lime_go_agentic.resources._base import SyncCrudResource, SyncReadResource, SyncRelationship
+from lime_go_agentic.resources._base import (
+    SyncCreateResource,
+    SyncCrudResource,
+    SyncReadResource,
+    SyncRelationship,
+)
 
 SPEC_FILE = Path(__file__).parent.parent / "spec" / "openapi.json"
 if not SPEC_FILE.exists():
@@ -39,6 +44,10 @@ WRITE_MODELS = {
     "deals": (models.DealCreate, models.DealUpdate),
     "activities": (models.ActivityCreate, models.ActivityUpdate),
     "tasks": (models.TaskCreate, models.TaskUpdate),
+}
+#: Resources the API only accepts ``POST`` for (no reads, upsert, update or delete).
+CREATE_ONLY_WRITE_MODELS: dict[str, type[models.WriteModel]] = {
+    "tickets": models.TicketCreate,
 }
 
 
@@ -121,13 +130,16 @@ WRITE_CASES = [
         ("create", f"{API}/{rtype}/external/{{external_id}}", "put"),
         ("update", f"{API}/{rtype}/{{id}}", "patch"),
     )
-]
+] + [(rtype, "create", f"{API}/{rtype}", "post") for rtype in CREATE_ONLY_WRITE_MODELS]
 
 
 @pytest.mark.parametrize(("rtype", "label", "path", "method"), WRITE_CASES)
 def test_write_model_matches_request_body(rtype: str, label: str, path: str, method: str) -> None:
-    create, update = WRITE_MODELS[rtype]
-    model = create if label == "create" else update
+    if rtype in CREATE_ONLY_WRITE_MODELS:
+        model = CREATE_ONLY_WRITE_MODELS[rtype]
+    else:
+        create, update = WRITE_MODELS[rtype]
+        model = create if label == "create" else update
     data = body_schema(path, method)
     spec_attrs = data["properties"]["attributes"]["properties"]
     spec_rels = data["properties"].get("relationships", {}).get("properties", {})
@@ -163,6 +175,24 @@ def test_write_model_matches_request_body(rtype: str, label: str, path: str, met
     for name, prop in spec_attrs.items():
         if "enum" in prop:
             assert literal_values(fields[name].annotation) == set(prop["enum"]), f"{rtype}.{name}"
+
+
+def test_ticket_message_and_receipt_match_spec() -> None:
+    op = PATHS[f"{API}/tickets"]["post"]
+    item = body_schema(f"{API}/tickets", "post")["properties"]["attributes"]["properties"][
+        "messages"]["items"]
+    fields = wire_fields(models.TicketMessage)
+    assert set(fields) == set(item["properties"])
+    assert {w for w, f in fields.items() if f.is_required()} == set(item["required"])
+    assert literal_values(fields["role"].annotation) == set(item["properties"]["role"]["enum"])
+
+    receipt = op["responses"]["201"]["content"]["application/vnd.api+json"]["schema"][
+        "properties"]["data"]
+    spec_attrs = receipt["properties"]["attributes"]["properties"]
+    model_attrs = wire_fields(models.TicketAttributes)
+    assert set(model_attrs) == set(spec_attrs)
+    assert literal_values(model_attrs["status"].annotation) == set(spec_attrs["status"]["enum"])
+    assert "relationships" not in receipt["properties"]
 
 
 # -- list filters ---------------------------------------------------------------------
@@ -204,6 +234,9 @@ def _sdk_operations(sdk: LimeGoClient) -> set[tuple[str, str]]:
             if isinstance(rel, SyncRelationship):
                 rp = f"{p}/{{id}}/relationships/{rel._name}"
                 ops |= {(m, rp) for m in ("get", "post", "patch", "delete")}
+    for resource in vars(sdk).values():
+        if isinstance(resource, SyncCreateResource):
+            ops.add(("post", resource._path))
     return ops
 
 
@@ -214,10 +247,10 @@ def test_every_spec_operation_is_covered(sdk: LimeGoClient) -> None:
     assert sdk_ops - spec_ops == set(), "SDK calls operations the spec does not declare"
 
 
-def test_spec_has_74_operations() -> None:
+def test_spec_has_75_operations() -> None:
     """Pins the spec version this SDK release was written against."""
     assert SPEC["info"]["version"] == "1.0.0"
-    assert sum(1 for item in PATHS.values() for m in item if m != "parameters") == 74
+    assert sum(1 for item in PATHS.values() for m in item if m != "parameters") == 75
 
 
 def test_scopes_match_spec() -> None:

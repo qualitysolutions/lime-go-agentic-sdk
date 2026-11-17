@@ -6,6 +6,16 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); ver
 CalVer: `YY.M.D[.N]` up to 26.10.14, `YYYY.M.D[.N]` from 2026.10.15 (sorts after the
 older versions under PEP 440).
 
+## [2026.11.17] - 2026-11-17
+
+### Added
+- Tickets: `tickets.create(TicketCreate(...))` hands a chatbot conversation to the Lime
+  support inbox (`POST /api/v1/tickets`, scope `tickets:create`, create only). Request
+  model `TicketCreate` with a `TicketMessage` transcript (`customer` | `assistant` |
+  `agent`); the 201 receipt parses as `Ticket` (`number`, `status`, `source`).
+  `tickets:create` added to `ALL_SCOPES`. Lime added the operation to the live API (75
+  operations); the spec version stayed 1.0.0, the conformance test caught the change.
+
 ## [2026.10.15] - 2026-10-15
 
 ### Added
