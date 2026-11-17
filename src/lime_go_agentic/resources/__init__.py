@@ -37,12 +37,16 @@ from ..models import (
     TaskCreate,
     TaskFilter,
     TaskUpdate,
+    Ticket,
+    TicketCreate,
     UpdatedSinceFilter,
 )
 from ._base import (
+    AsyncCreateResource,
     AsyncCrudResource,
     AsyncReadResource,
     AsyncRelationship,
+    SyncCreateResource,
     SyncCrudResource,
     SyncReadResource,
     SyncRelationship,
@@ -83,6 +87,14 @@ class Tasks(SyncCrudResource[Task, TaskFilter, TaskCreate, TaskUpdate]):
         self.companies = SyncRelationship(transport, self._path, "companies", "companies")
         self.contacts = SyncRelationship(transport, self._path, "contacts", "contacts")
         self.deals = SyncRelationship(transport, self._path, "deals", "deals")
+
+
+class Tickets(SyncCreateResource[Ticket, TicketCreate]):
+    """Hand a chatbot conversation to the support inbox (scope ``tickets:create``).
+    Create only; does not send replies or grant inbox access."""
+
+    def __init__(self, transport: SyncTransport) -> None:
+        super().__init__(transport, f"{API}/tickets", "tickets", Ticket)
 
 
 class Owners(SyncReadResource[Owner, NoFilter]):
@@ -189,6 +201,11 @@ class AsyncTasks(AsyncCrudResource[Task, TaskFilter, TaskCreate, TaskUpdate]):
         self.deals = AsyncRelationship(transport, self._path, "deals", "deals")
 
 
+class AsyncTickets(AsyncCreateResource[Ticket, TicketCreate]):
+    def __init__(self, transport: AsyncTransport) -> None:
+        super().__init__(transport, f"{API}/tickets", "tickets", Ticket)
+
+
 class AsyncOwners(AsyncReadResource[Owner, NoFilter]):
     def __init__(self, transport: AsyncTransport) -> None:
         super().__init__(transport, f"{API}/owners", "owners", Owner)
@@ -234,8 +251,8 @@ class AsyncChanges:
 
 __all__ = [
     "Activities", "ActivityTypes", "Changes", "Companies", "Contacts", "CustomFieldDefinitions",
-    "Deals", "Owners", "Stages", "Tags", "Tasks",
+    "Deals", "Owners", "Stages", "Tags", "Tasks", "Tickets",
     "AsyncActivities", "AsyncActivityTypes", "AsyncChanges", "AsyncCompanies", "AsyncContacts",
     "AsyncCustomFieldDefinitions", "AsyncDeals", "AsyncOwners", "AsyncStages", "AsyncTags",
-    "AsyncTasks", "CHANGES_CURSOR_PARAM",
+    "AsyncTasks", "AsyncTickets", "CHANGES_CURSOR_PARAM",
 ]

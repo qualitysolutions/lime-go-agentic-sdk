@@ -4,6 +4,7 @@ The API is uniform JSON:API, so one generic implementation covers all resources:
 
 * :class:`SyncReadResource` - ``list`` / ``iter`` / ``get`` (reference data),
 * :class:`SyncCrudResource` - adds ``create`` / ``upsert`` / ``update`` / ``delete``,
+* :class:`SyncCreateResource` - ``create`` only (e.g. tickets),
 * :class:`SyncRelationship` - ``/{id}/relationships/{name}`` list/add/remove/replace,
 
 plus their ``Async*`` twins. Request building and response parsing are shared free
@@ -282,6 +283,24 @@ class SyncCrudResource(SyncReadResource[R, F], Generic[R, F, C, U]):
         )
 
 
+class SyncCreateResource(Generic[R, C]):
+    """``create`` only, for endpoints that accept new records but expose no reads."""
+
+    def __init__(self, transport: SyncTransport, path: str, resource_type: str, model: type[R]) -> None:
+        self._t = transport
+        self._path = path
+        self._type = resource_type
+        self._model = model
+
+    def create(self, data: C, *, idempotency_key: str | None = None) -> R:
+        """Create a record. Pass a stable ``idempotency_key`` to make re-runs safe."""
+        response = self._t.request(
+            "POST", self._path, json=data.to_document(self._type),
+            headers=_write_headers(if_match=None, idempotency_key=idempotency_key),
+        )
+        return _parse_single(self._model, response)
+
+
 class SyncRelationship:
     """A to-many relationship endpoint, e.g. ``client.deals.contacts``.
 
@@ -464,6 +483,23 @@ class AsyncCrudResource(AsyncReadResource[R, F], Generic[R, F, C, U]):
             "DELETE", _item_path(self._path, resource_id),
             headers=_write_headers(if_match=if_match, idempotency_key=idempotency_key),
         )
+
+
+class AsyncCreateResource(Generic[R, C]):
+    """Async twin of :class:`SyncCreateResource`."""
+
+    def __init__(self, transport: AsyncTransport, path: str, resource_type: str, model: type[R]) -> None:
+        self._t = transport
+        self._path = path
+        self._type = resource_type
+        self._model = model
+
+    async def create(self, data: C, *, idempotency_key: str | None = None) -> R:
+        response = await self._t.request(
+            "POST", self._path, json=data.to_document(self._type),
+            headers=_write_headers(if_match=None, idempotency_key=idempotency_key),
+        )
+        return _parse_single(self._model, response)
 
 
 class AsyncRelationship:

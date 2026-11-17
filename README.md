@@ -64,7 +64,8 @@ can hold several instances. `client.granted_scopes` shows what the server grante
 
 Scopes: `{companies,contacts,deals,activities,tasks}:{read,write,delete}`,
 `reference:read` (owners, stages, tags, activity types, custom-field definitions,
-relationship reads) and `changes:read`. Request only what an integration needs.
+relationship reads), `changes:read` and `tickets:create`. Request only what an
+integration needs.
 
 ## API map
 
@@ -76,9 +77,10 @@ relationship reads) and `changes:read`. Request only what an integration needs.
 | `tasks.companies`, `tasks.contacts`, `tasks.deals` | same as above |
 | `owners`, `stages`, `tags`, `activity_types`, `custom_field_definitions` | `list`, `iter`, `next_page`, `get` |
 | `changes` | `read(cursor)`, `iter_pages(cursor)` |
+| `tickets` | `create` (only) |
 | `request(...)` | escape hatch for any path |
 
-All 74 operations in the spec are covered; `tests/test_spec_conformance.py` enforces it.
+All 75 operations in the spec are covered; `tests/test_spec_conformance.py` enforces it.
 
 ### Writing
 
@@ -94,6 +96,31 @@ Notes from the spec:
   can only be set on create. In Python the activity `type` attribute is `activity_type`.
 - `TaskCreate` requires `owner` (an owner id, or explicitly `None`).
 - Deal `value` is a `Decimal`, sent as the API's decimal string (max 15+4 digits).
+
+### Support tickets
+
+`tickets.create` hands a chatbot conversation to the Lime support inbox. It is create
+only: no reads, no replies, no inbox access. The organization needs Lime's `cases` and
+`public_api` grants.
+
+```python
+from datetime import datetime, timezone
+from lime_go_agentic import TicketCreate, TicketMessage
+
+receipt = lime.tickets.create(TicketCreate(
+    subject="Help with my vehicle", customer_email="customer@example.com",
+    source="Chatt", external_conversation_id="chat-42",
+    messages=[TicketMessage(role="customer", body="I need help",
+                            sent_at=datetime(2026, 11, 11, 10, 0, tzinfo=timezone.utc))],
+))
+print(receipt.attributes.number, receipt.attributes.status)  # e.g. 1042 open
+```
+
+`external_conversation_id` is owned by the integration and immutable: repeating a create
+returns the original receipt, changed content raises `ConflictError`. The transcript is
+chronological plain text (1-100 messages, max 48 KiB encoded). Optional `company_id`
+links an existing company (also needs `companies:read`); without it Lime links the sender
+by a unique exact `customer_email` match. Send credentials from a trusted server only.
 
 ### Idempotency
 

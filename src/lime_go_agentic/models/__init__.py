@@ -71,6 +71,7 @@ from .tasks import (
     TaskWritePriority,
     TaskWriteStatus,
 )
+from .tickets import Ticket, TicketAttributes, TicketCreate, TicketMessage, TicketMessageRole, TicketStatus
 
 #: JSON:API ``type`` -> model, used to type ``included`` resources.
 RESOURCE_MODELS: dict[str, type[Resource]] = {
@@ -105,5 +106,6 @@ __all__ = [
     "Tag", "TagAttributes",
     "Task", "TaskAttributes", "TaskCreate", "TaskFilter", "TaskPriority",
     "TaskRelationships", "TaskStatus", "TaskUpdate", "TaskWritePriority", "TaskWriteStatus",
+    "Ticket", "TicketAttributes", "TicketCreate", "TicketMessage", "TicketMessageRole", "TicketStatus",
     "ToMany", "ToOne", "UpsertResult", "WriteModel",
 ]

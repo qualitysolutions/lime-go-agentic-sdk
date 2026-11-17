@@ -22,6 +22,7 @@ from .resources import (
     AsyncStages,
     AsyncTags,
     AsyncTasks,
+    AsyncTickets,
     Changes,
     Companies,
     Contacts,
@@ -31,6 +32,7 @@ from .resources import (
     Stages,
     Tags,
     Tasks,
+    Tickets,
 )
 
 
@@ -69,6 +71,7 @@ class LimeGoClient:
         self.deals = Deals(t)
         self.activities = Activities(t)
         self.tasks = Tasks(t)
+        self.tickets = Tickets(t)
         self.owners = Owners(t)
         self.stages = Stages(t)
         self.tags = Tags(t)
@@ -132,6 +135,7 @@ class AsyncLimeGoClient:
         self.deals = AsyncDeals(t)
         self.activities = AsyncActivities(t)
         self.tasks = AsyncTasks(t)
+        self.tickets = AsyncTickets(t)
         self.owners = AsyncOwners(t)
         self.stages = AsyncStages(t)
         self.tags = AsyncTags(t)
