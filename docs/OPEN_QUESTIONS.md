@@ -9,12 +9,13 @@ task (create via upsert, then an owner change). Note that OAuth clients created
 in the admin UI *before* API access was enabled kept returning `401 invalid_client` (even
 after rotating the secret); a client created afterwards worked.
 
-1. **Production base URL.** *Partly answered.* Our instance and its OAuth client live on
-   `https://agentic.staging.lime-go.com`, which is the production environment while Lime
-   Go Agentic is in beta; the token is tenant-scoped (no tenant in the API path). A second
-   host, `agentic.lime-go.com`, serves the same spec. Open: will instances and credentials
-   move there after the beta, and does the API URL change?
-   *SDK:* `environment="staging"` or an explicit `base_url`; no default.
+1. **Production base URL.** *Answered.* Lime moved our organization from
+   `https://agentic.staging.lime-go.com` to `https://agentic.lime-go.com` on 2026-11-20.
+   During the move the staging host answered `423 locked` ("Organization is moving to
+   agentic.lime-go.com") on API calls while its token endpoint still returned 200. The
+   staging OAuth client did not carry over (`401 invalid_client` on prod); a new client was
+   issued for prod. The API path and spec are unchanged; the token is tenant-scoped.
+   *SDK:* `environment="prod"` (or `"staging"`, or an explicit `base_url`); no default.
 
 2. **`GET /api/v1/changes` request parameters.** *Answered (mostly).* The cursor parameter
    is `cursor` (`page[cursor]` and `after` give `400 invalid_query`). The first call without

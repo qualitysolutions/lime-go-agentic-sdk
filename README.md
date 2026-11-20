@@ -26,7 +26,7 @@ Requires Python 3.10+. Depends on `httpx` and `pydantic>=2`.
 from decimal import Decimal
 from lime_go_agentic import LimeGoClient, CompanyCreate, DealCreate, DealUpdate
 
-with LimeGoClient(client_id="...", client_secret="...", environment="staging") as lime:
+with LimeGoClient(client_id="...", client_secret="...", environment="prod") as lime:
     # Upsert by an id WE own (e.g. the contract number) - safe to re-run.
     company = lime.companies.upsert("ORG-5560000000", CompanyCreate(name="Acme AB", status="customer")).resource
     deal = lime.deals.upsert(
@@ -53,7 +53,7 @@ retries once on a `401`.
 | --------------- | ------------------------------- | ----- |
 | `client_id`     | `CLIENT_ID`                     | required |
 | `client_secret` | `CLIENT_SECRET`                 | required |
-| `environment`   | `LIME_GO_ENV`                   | `staging` is the only known URL |
+| `environment`   | `LIME_GO_ENV`                   | `prod` or `staging` |
 | `base_url`      | `BASE_URL`                      | required for any other instance |
 | `scopes`        | `SCOPES` (space-separated)      | omit to get the client's default |
 

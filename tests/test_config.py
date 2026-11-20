@@ -25,10 +25,16 @@ def test_known_environment_resolves_base_url() -> None:
     assert cfg.token_url == "https://agentic.staging.lime-go.com/oauth/token"
 
 
+def test_prod_environment_resolves_base_url() -> None:
+    cfg = Config(client_id="a", client_secret="b", environment="prod")
+    assert cfg.base_url == "https://agentic.lime-go.com"
+    assert cfg.token_url == "https://agentic.lime-go.com/oauth/token"
+
+
 def test_unknown_environment_requires_base_url() -> None:
     with pytest.raises(ConfigurationError):
-        Config(client_id="a", client_secret="b", environment="prod")
-    cfg = Config(client_id="a", client_secret="b", environment="prod", base_url="https://x.example/")
+        Config(client_id="a", client_secret="b", environment="sandbox")
+    cfg = Config(client_id="a", client_secret="b", environment="sandbox", base_url="https://x.example/")
     assert cfg.base_url == "https://x.example"
 
 
