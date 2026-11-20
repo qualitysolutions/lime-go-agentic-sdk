@@ -16,6 +16,12 @@ older versions under PEP 440).
   `tickets:create` added to `ALL_SCOPES`. Lime added the operation to the live API (75
   operations); the spec version stayed 1.0.0, the conformance test caught the change.
 
+## [Unreleased]
+
+### Added
+- `environment="prod"` resolves to `https://agentic.lime-go.com`. Lime moved organizations
+  there from `agentic.staging.lime-go.com` after the beta (see `docs/OPEN_QUESTIONS.md` 1).
+
 ## [2026.10.15] - 2026-10-15
 
 ### Added
