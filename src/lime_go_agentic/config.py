@@ -7,9 +7,11 @@ from dataclasses import dataclass, field
 
 from .errors import ConfigurationError
 
-#: Known environments and their base URLs. Only staging is published so far (the
-#: OpenAPI spec has no ``servers`` entry); for any other instance pass ``base_url``.
+#: Known environments and their base URLs (the OpenAPI spec has no ``servers`` entry);
+#: for any other instance pass ``base_url``. Lime moved organizations from staging to
+#: prod after the beta (QLS on 2026-11-20; staging then answers 423 ``locked``).
 ENVIRONMENT_URLS = {
+    "prod": "https://agentic.lime-go.com",
     "staging": "https://agentic.staging.lime-go.com",
 }
 
