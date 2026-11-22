@@ -6,7 +6,13 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); ver
 CalVer: `YY.M.D[.N]` up to 26.10.14, `YYYY.M.D[.N]` from 2026.10.15 (sorts after the
 older versions under PEP 440).
 
-## [2026.11.17] - 2026-11-17
+## [2026.11.22] - 2026-11-22
+
+### Added
+- `environment="prod"` resolves to `https://agentic.lime-go.com`. Lime moved organizations
+  there from `agentic.staging.lime-go.com` after the beta (see `docs/OPEN_QUESTIONS.md` 1).
+
+## [2026.11.17] - 2026-11-17 (not on PyPI; shipped in 2026.11.22)
 
 ### Added
 - Tickets: `tickets.create(TicketCreate(...))` hands a chatbot conversation to the Lime
@@ -15,12 +21,6 @@ older versions under PEP 440).
   `agent`); the 201 receipt parses as `Ticket` (`number`, `status`, `source`).
   `tickets:create` added to `ALL_SCOPES`. Lime added the operation to the live API (75
   operations); the spec version stayed 1.0.0, the conformance test caught the change.
-
-## [Unreleased]
-
-### Added
-- `environment="prod"` resolves to `https://agentic.lime-go.com`. Lime moved organizations
-  there from `agentic.staging.lime-go.com` after the beta (see `docs/OPEN_QUESTIONS.md` 1).
 
 ## [2026.10.15] - 2026-10-15
 
